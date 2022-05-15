@@ -102,7 +102,9 @@ function filtrarAuto(){
                             .filter(filtrarAnio)
                             .filter(filtrarMinimo)
                             .filter(filtrarMaximo)
-                            .filter(filtrarPuertas);
+                            .filter(filtrarPuertas)
+                            .filter(filtrarTransmision)
+                            .filter(filtrarColor);
 
     console.log(resultado);
     mostrarAutos(resultado);
@@ -143,6 +145,36 @@ function filtrarMaximo(auto){
 
     if(maximo){
         return parseFloat(auto.precio) <= parseFloat(maximo);
+    }
+
+    return auto;
+}
+
+function filtrarPuertas(auto){
+    const { puertas } = datosBusqueda;
+
+    if( puertas ){
+        return auto.puertas === parseInt(puertas);
+    }
+
+    return auto;
+}
+
+function filtrarTransmision(auto){
+    const { transmision } = datosBusqueda;
+
+    if ( transmision ){
+        return auto.transmision === transmision;
+    }
+
+    return auto;
+}
+
+function filtrarColor(auto){
+    const { color } = datosBusqueda;
+
+    if ( color ){
+        return auto.color === color;
     }
 
     return auto;
