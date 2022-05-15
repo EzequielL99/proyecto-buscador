@@ -1,8 +1,16 @@
 // Variables
 const resultado = document.querySelector('#resultado');
+const year = document.querySelector('#year');
+
+const max = new Date().getFullYear();
+const min = max - 10;
+
 // Eventos
 document.addEventListener('DOMContentLoaded', () => {
-    mostrarAutos();
+    mostrarAutos(); // Muestra los automoviles al cardar
+
+    // Llena las opciones de anios
+    llenarSelect();
 });
 
 // Funciones
@@ -16,4 +24,16 @@ function mostrarAutos(){
         resultado.appendChild(autoHTML);
 
     })
+}
+
+function llenarSelect(){
+    console.log('llenando el select');
+    for( let i = max; i >= min; i--){
+        const opcion = document.createElement('OPTION');
+        opcion.value = i;
+        opcion.textContent = i;
+        if(i == max) opcion.setAttribute('selected', '');
+
+        year.appendChild(opcion);
+    }
 }
