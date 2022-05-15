@@ -70,11 +70,19 @@ color.addEventListener('change', e => {
 
 
 // Funciones
-function mostrarAutos(autos){
+function mostrarAutos(autos) {
     limpiarHTML();
 
-    autos.forEach( auto => {
-        const { color, marca, modelo, precio, puertas, transmision, year } = auto;
+    autos.forEach(auto => {
+        const {
+            color,
+            marca,
+            modelo,
+            precio,
+            puertas,
+            transmision,
+            year
+        } = auto;
         const autoHTML = document.createElement('P');
 
         autoHTML.textContent = ` ${marca} - ${modelo} - ${year} - ${puertas} Puertas - Transmision ${transmision} - Precio: $${precio} - Color: ${color}`;
@@ -84,104 +92,132 @@ function mostrarAutos(autos){
     })
 }
 
-function llenarSelect(){
+function llenarSelect() {
     console.log('llenando el select');
-    for( let i = max; i >= min; i--){
+    for (let i = max; i >= min; i--) {
         const opcion = document.createElement('OPTION');
         opcion.value = i;
         opcion.textContent = i;
-        if(i == max) opcion.setAttribute('selected', '');
+        if (i == max) opcion.setAttribute('selected', '');
 
         year.appendChild(opcion);
     }
 }
 
 // Funcion que filtra en base a la busqueda 
-function filtrarAuto(){
+function filtrarAuto() {
     const resultado = autos.filter(filtrarMarca)
-                            .filter(filtrarAnio)
-                            .filter(filtrarMinimo)
-                            .filter(filtrarMaximo)
-                            .filter(filtrarPuertas)
-                            .filter(filtrarTransmision)
-                            .filter(filtrarColor);
+        .filter(filtrarAnio)
+        .filter(filtrarMinimo)
+        .filter(filtrarMaximo)
+        .filter(filtrarPuertas)
+        .filter(filtrarTransmision)
+        .filter(filtrarColor);
 
-    console.log(resultado);
-    mostrarAutos(resultado);
+    if (resultado.length > 0) {
+        mostrarAutos(resultado);
+    }else{
+        noResultado();
+    }
+
 }
 
-function filtrarMarca(auto){
-    const { marca } = datosBusqueda;
+function noResultado(){
+    limpiarHTML();
+    
+    const noResultado = document.createElement('DIV');
+    noResultado.classList.add('alerta', 'error');
+    noResultado.textContent = 'No hay resultados disponibles';
 
-    if(marca){
+    resultado.appendChild(noResultado);
+}
+
+function filtrarMarca(auto) {
+    const {
+        marca
+    } = datosBusqueda;
+
+    if (marca) {
         return auto.marca === marca;
     }
 
     return auto;
 }
 
-function filtrarAnio(auto){
-    const { year } = datosBusqueda;
+function filtrarAnio(auto) {
+    const {
+        year
+    } = datosBusqueda;
 
-    if( year ){
+    if (year) {
         return auto.year === parseInt(year);
     }
 
     return auto;
 }
 
-function filtrarMinimo(auto){
-    const { minimo } = datosBusqueda;
+function filtrarMinimo(auto) {
+    const {
+        minimo
+    } = datosBusqueda;
 
-    if( minimo ){
+    if (minimo) {
         return parseFloat(auto.precio) >= parseFloat(minimo);
     }
 
     return auto;
 }
 
-function filtrarMaximo(auto){
-    const { maximo } = datosBusqueda;
+function filtrarMaximo(auto) {
+    const {
+        maximo
+    } = datosBusqueda;
 
-    if(maximo){
+    if (maximo) {
         return parseFloat(auto.precio) <= parseFloat(maximo);
     }
 
     return auto;
 }
 
-function filtrarPuertas(auto){
-    const { puertas } = datosBusqueda;
+function filtrarPuertas(auto) {
+    const {
+        puertas
+    } = datosBusqueda;
 
-    if( puertas ){
+    if (puertas) {
         return auto.puertas === parseInt(puertas);
     }
 
     return auto;
 }
 
-function filtrarTransmision(auto){
-    const { transmision } = datosBusqueda;
+function filtrarTransmision(auto) {
+    const {
+        transmision
+    } = datosBusqueda;
 
-    if ( transmision ){
+    if (transmision) {
         return auto.transmision === transmision;
     }
 
     return auto;
 }
 
-function filtrarColor(auto){
-    const { color } = datosBusqueda;
+function filtrarColor(auto) {
+    const {
+        color
+    } = datosBusqueda;
 
-    if ( color ){
+    if (color) {
         return auto.color === color;
     }
 
     return auto;
 }
 
-function limpiarHTML(){
-    while(resultado.firstChild){
+function limpiarHTML() {
+    while (resultado.firstChild) {
         resultado.removeChild(resultado.firstChild);
     }
 }
